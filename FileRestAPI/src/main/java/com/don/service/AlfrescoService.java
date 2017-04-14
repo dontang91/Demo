@@ -33,14 +33,13 @@ public class AlfrescoService {
 		String ticket = null;
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost request = new HttpPost(LOGIN_URL);
-		request.addHeader("content-type", "application/json");
 		HttpEntity entity = new StringEntity("{\"userId\":\"" + userName + "\",\"password\":\"" + password + "\"}",
 				ContentType.APPLICATION_JSON);
-		request.setEntity(entity);
+		request.addHeader("content-type", "application/json");
 		request.addHeader("Accept", "application/json");
-		HttpResponse response = null;
+		request.setEntity(entity);
 		try {
-			response = client.execute(request);
+			HttpResponse response = client.execute(request);
 			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 			StringBuffer result = new StringBuffer();
 			String line = "";
@@ -59,8 +58,8 @@ public class AlfrescoService {
 	public String uploadFile(String fileName, String contentType, InputStream inputStream) {
 		String res = null;
 		String ticket = this.login("username", "password");
-		String rootFolderId = findRootFolder(ticket);
-		String url = BASE_PUBLIC_URL + "/alfresco/versions/1/nodes/" + rootFolderId + "/children";
+		String folderId = findFolder(ticket);
+		String url = BASE_PUBLIC_URL + "/alfresco/versions/1/nodes/" + folderId + "/children";
 
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost request = new HttpPost();
@@ -97,13 +96,12 @@ public class AlfrescoService {
 		return res;
 	}
 
-	public InputStream downloadFile(String nodeId) throws ClientProtocolException, IOException {
+	public InputStream downloadFile(String nodeId) throws ClientProtocolException, IOException, URISyntaxException {
 
 		String ticket = this.login("username", "password");
-		// String rootFolderId = findRootFolder(ticket);
-		String rootFolderId = nodeId;
-		String url = BASE_PUBLIC_URL + "/alfresco/versions/1/nodes/" + rootFolderId + "/content" + "?alf_ticket=" + ticket;
 
+		String url = BASE_PUBLIC_URL + "/alfresco/versions/1/nodes/" + nodeId + "/content" + "?alf_ticket=" + ticket;
+		//URI u = new URIBuilder(url).addParameter("attachment", "true").build();
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpGet request = new HttpGet(url);
 		request.addHeader("content-type", "application/json");
@@ -113,16 +111,15 @@ public class AlfrescoService {
 		return is;
 	}
 
-	public String findRootFolder(String ticket) {
+	public String findFolder(String ticket) {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpGet request = new HttpGet();
 		String res = null;
 		try {
 			URI uri = new URIBuilder(NODE_URL)
 					.addParameter("alf_ticket", ticket)
-					.addParameter("term", "File+API")
-					.addParameter("rootNodeId", "-my-")
-					.addParameter("fields", "name,id")
+					.addParameter("term", "Demo")
+					.addParameter("nodeType", "cm:folder")
 					.build();
 			request.setURI(uri);
 			request.addHeader("Accept", "application/json");
