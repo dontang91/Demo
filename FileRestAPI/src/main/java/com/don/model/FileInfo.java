@@ -19,6 +19,14 @@ public class FileInfo {
 	public FileInfo() {
 		super();
 	}
+	
+	public FileInfo(Integer id, String name, Long size) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.size = size;
+	}
+	
 	public FileInfo(Integer id, String name, Long size, Date date, String path) {
 		super();
 		this.id = id;

@@ -10,8 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URISyntaxException;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -27,7 +25,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.don.exception.FileUploadException;
 import com.don.model.Ticket;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,9 +35,9 @@ public class AlfrescoTest {
 	private static final String BASE_PUBLIC_URL = "http://localhost:8080/alfresco/api/-default-/public";
 	private static final String LOGIN_URL = BASE_PUBLIC_URL + "/authentication/versions/1/tickets";
 	private static final String NODE_URL = BASE_PUBLIC_URL + "/alfresco/versions/1/queries/nodes";
-	private static final String NODE_ID = "71aad90f-948b-408b-8998-437d69e82c35";
-	private static final String DEMO_FOLDER_ID = "571e5bc8-afe0-4085-b4a3-99df789eb355";
-	private static final String ROOT_FOLDER_ID = "f0d63b0c-d93c-423e-87ed-ee3c42882269";
+	//private static final String NODE_ID = "71aad90f-948b-408b-8998-437d69e82c35";
+	//private static final String DEMO_FOLDER_ID = "571e5bc8-afe0-4085-b4a3-99df789eb355";
+	//private static final String ROOT_FOLDER_ID = "f0d63b0c-d93c-423e-87ed-ee3c42882269";
 	
 	@Test
 	public void testLogin() {

@@ -111,6 +111,33 @@ public class AlfrescoService {
 		return is;
 	}
 
+    public String findFile(String ticket) {
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet();
+        String res = null;
+		try {
+			URI uri = new URIBuilder(NODE_URL)
+			        .addParameter("alf_ticket",ticket)
+			        .addParameter("term","demo")
+			        .addParameter("nodeType", "cm:content")
+			        .build();
+			request.setURI(uri);
+			request.addHeader("Accept", "application/json");
+			HttpResponse response = client.execute(request);
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode root = objectMapper.readTree(response.getEntity().getContent());
+			JsonNode entries = root.path("list").path("entries");
+			for (JsonNode entry : entries) {
+				res = entry.path("entry").path("id").asText();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+		
+    }
+    
 	public String findFolder(String ticket) {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpGet request = new HttpGet();
