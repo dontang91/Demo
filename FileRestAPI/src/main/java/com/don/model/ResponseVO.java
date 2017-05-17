@@ -1,9 +1,9 @@
 package com.don.model;
 
-public class Response {
+public class ResponseVO {
 	private String Message;
 	
-	public Response(String message) {
+	public ResponseVO(String message) {
 		super();
 		Message = message;
 	}

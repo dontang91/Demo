@@ -32,7 +32,7 @@ public class ScheduledTasks {
     String topic;
     
     //@Scheduled(initialDelay=10000, fixedRate=10000)
-    @Scheduled(cron="0 0 0/1 1/1 * ? *") //At every hour exactly
+    //@Scheduled(cron="0 0 0/1 1/1 * ? *") //At every hour exactly
     public void sendEmail() throws MessagingException {
     	String body = getBody();
     	mailservice.send(sendTo, topic, body);

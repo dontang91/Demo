@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.don.model.FileInfo;
-import com.don.model.Response;
+import com.don.model.ResponseVO;
 import com.don.service.AlfrescoService;
 import com.don.service.FileService;
 
@@ -53,13 +53,13 @@ public class FileController {
 	}
 
 	@RequestMapping(value = "/file/{id}", method = RequestMethod.GET)
-	public Response downloadFileHandler(@PathVariable("id") Integer id, HttpServletResponse response)
+	public ResponseVO downloadFileHandler(@PathVariable("id") Integer id, HttpServletResponse response)
 			throws ClientProtocolException, IOException {
 
 		/* //for alfresco service 
 		FileInfo fileinfo = localFileService.getFileInfoById(id);
 		if (fileinfo == null) {
-			return "File record not found";
+			return newResponse("File record not found");
 		}
 		//Here i stored disk path instead of nodeid
 		String nodeId = fileinfo.getPath();
@@ -71,7 +71,7 @@ public class FileController {
 	}
 
 	@RequestMapping(value = "/file/{id}",method = RequestMethod.POST)
-	public Response uploadFileHandler(@PathVariable("id") Integer id, @RequestParam("file") MultipartFile file)
+	public ResponseVO uploadFileHandler(@PathVariable("id") Integer id, @RequestParam("file") MultipartFile file)
 			throws IOException {
 
 		if (!file.isEmpty()) {
@@ -81,7 +81,7 @@ public class FileController {
 			// return alfrescoService.uploadFile(name,contentType, is);
 			return localFileService.saveFile(id, file);
 		} else {
-			return new Response("Failed to upload file: => the file was empty.");
+			return new ResponseVO("Failed to upload file: => the file was empty.");
 		}
 
 	}

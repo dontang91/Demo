@@ -2,7 +2,7 @@ package com.don;
 
 import com.don.controller.FileController;
 import com.don.model.FileInfo;
-import com.don.model.Response;
+import com.don.model.ResponseVO;
 import com.don.service.AlfrescoService;
 import com.don.service.FileService;
 import java.util.ArrayList;
@@ -63,12 +63,12 @@ public class ControllerTest {
 
 	@Test
 	public void testUploadFile() throws Exception {
-		MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "some content".getBytes());
-		given(this.fileService.saveFile(1, file)).willReturn(new Response("success"));
+		MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "some contendnjajdakdt".getBytes());
+		given(this.fileService.saveFile(1, file)).willReturn(new ResponseVO("success"));
 		this.mockMvc.perform(fileUpload("/file/1").file(file))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-		.andExpect(content().string("{\"message\":\"success\"}"));
+		.andExpect(content().string("{\"message\":\"success\"} "));
 	}
 	
 	@Test

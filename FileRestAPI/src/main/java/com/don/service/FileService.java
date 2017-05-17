@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.don.dao.FileInfoDao;
 import com.don.model.FileInfo;
-import com.don.model.Response;
+import com.don.model.ResponseVO;
 
 @Service
 public class FileService {
@@ -60,12 +60,12 @@ public class FileService {
 	}
 	
 	
-	public Response downloadFile(Integer id, HttpServletResponse response) {
+	public ResponseVO downloadFile(Integer id, HttpServletResponse response) {
 
 		FileInfo fileinfo = this.getFileInfoById(id);
 
 		if (fileinfo == null) {
-			return new Response("File record not found");
+			return new ResponseVO("File record not found");
 		}
 
 		String path = fileinfo.getPath();
@@ -77,17 +77,17 @@ public class FileService {
 				response.addHeader("Content-disposition", "attachment;filename=" + fileinfo.getName());
 				response.setContentType("application/octet-stream");
 				FileCopyUtils.copy(is, response.getOutputStream());
-				return new Response("File will be downloaded shortly");
+				return new ResponseVO("File will be downloaded shortly");
 			} catch (IOException e) {
 				e.printStackTrace();
-				return new Response("IO Exception occured on server");
+				return new ResponseVO("IO Exception occured on server");
 			}
 		}
-		return new Response("File in record but does not exist");
+		return new ResponseVO("File in record but does not exist");
 	}
 	
 	
-	public Response saveFile(Integer id, MultipartFile file) {
+	public ResponseVO saveFile(Integer id, MultipartFile file) {
 		try {
 			// Store file to local disk
 			File dir = new File("src/main/resources/files");
@@ -104,10 +104,10 @@ public class FileService {
 			Date date = new Date(savedFile.lastModified());
 			this.addFileInfo(new FileInfo(id,name,size,date,path));
 			
-			return new Response("Successfully uploaded file: " + name);
+			return new ResponseVO("Successfully uploaded file: " + name);
 
 		} catch (Exception e) {
-			return new Response("Failed to upload file: => " + e.getMessage());
+			return new ResponseVO("Failed to upload file: => " + e.getMessage());
 		}
 	}
 
